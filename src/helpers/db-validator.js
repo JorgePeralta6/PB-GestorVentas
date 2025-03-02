@@ -1,3 +1,4 @@
+import Role from '../role/role.model.js';
 import User from '../users/user.model.js';
 import Category from '../categorys/category.model.js';
 import Product from '../products/product.model.js'

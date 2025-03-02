@@ -18,7 +18,7 @@ export const login = async (req, res) => {
             });
         }
 
-        if(!user.estado){
+        if(!user.status){
             return res.status(400).json({
                 msg: 'El usuario no existe en la base de datos'
             });
