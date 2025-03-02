@@ -4,7 +4,7 @@ import { existenteEmail, esRoleValido } from "../helpers/db-validator.js";
 
 export const registerValidator = [
     body("name", "The name is required").not().isEmpty(),
-    body("surname", "The surname is required").not().isEmpty(),
+    body("lastname", "The lastname is required").not().isEmpty(),
     body("email", "You must enter a valid email").isEmail(),
     body("email").custom(existenteEmail),
     body('role').custom(esRoleValido),

@@ -1,6 +1,7 @@
 import Role from '../role/role.model.js';
 import User from '../users/user.model.js';
-import Appointment from '../appointment/appointment.model.js'
+import Category from '../categorys/category.model.js';
+import Product from '../products/product.model.js'
 
 export const esRoleValido = async (role = '') => {
 
@@ -28,10 +29,18 @@ export const existeUsuarioById = async (id = '') => {
     }
 }
 
-export const existeAppointmentById = async (id = '') => {
-    const existeAppointment = await Appointment.findById(id);
+export const existeCategory = async (id = '') => {
+    const existeCategory = await Category.findById(id);
     
-    if(!existeAppointment){
-        throw new Error(`El appointment con el id ${id} no existe`)
+    if(!existeCategory){
+        throw new Error(`La categoria con el ID ${id} no existe`)
+    }
+}
+
+export const existeProduct = async (id = '') => {
+    const existeProduct = await Product.findById(id);
+    
+    if(!existeProduct){
+        throw new Error(`El producto con el ID ${id} no existe`)
     }
 }
