@@ -30,4 +30,4 @@ const productSchema = Schema({
     },
 });
 
-export default mongoose.model('Product', productSchema);
+export default model('Product', productSchema);

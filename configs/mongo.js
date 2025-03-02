@@ -1,6 +1,7 @@
 'use strict';
 
 import mongoose from "mongoose";
+import Category from "../src/categorys/category.model.js"
 
 export const dbConnection = async () => {
     try{

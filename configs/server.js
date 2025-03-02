@@ -5,10 +5,11 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { dbConnection } from './mongo.js';
+import { createCategoria } from './mongo.js';
 import limiter from '../src/middlewares/validar-cant-peticiones.js';
-import authRoutes from '../src/auth/auth.routes.js'
-import userRoutes from '../src/users/user.routes.js'
-import categoryRoutes from '../src/category/category.routes.js'
+import authRoutes from '../src/auth/auth.routes.js';
+import userRoutes from '../src/users/user.routes.js';
+import categoryRoutes from '../src/categorys/category.routes.js';
 
 const middlewares = (app) => {
     app.use(express.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ const routes = (app) => {
 const conectarDB = async () => {
     try {
         await dbConnection();
+        await createCategoria();
         console.log("Conexión a la base de datos exitosa");
     } catch (error) {
         console.error('Error conectando a la base de datos', error);
@@ -37,7 +39,7 @@ const conectarDB = async () => {
 
 export const initServer = async () => {
     const app = express();
-    const port = process.env.PORT || 3001;
+    const port = process.env.PORT || 3000;
 
     try {
         middlewares(app);
