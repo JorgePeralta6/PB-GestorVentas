@@ -31,3 +31,22 @@ export const dbConnection = async () => {
         console.log('Database connection failed', error);
     }
 }
+
+export const createCategoria = async() => {
+    try {
+        const categoriaExists = await Category.findOne({name: "Condimentos"});
+
+        if(!categoriaExists){
+            const categoriaDefault = new Category({
+                name: "Condimentos"
+            });
+
+            await categoriaDefault.save();
+            console.log("Categoria creada con exito");
+        }else{
+            console.log(`Categoria ya existente`)
+        }
+    } catch (error) {
+        console.log("Error al crear la categoria")
+    }
+}
