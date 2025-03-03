@@ -110,3 +110,93 @@ export const updateProduct = async (req, res = response) => {
         })
     }
 } 
+
+export const getProductById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findById(id)
+            .populate({ path: 'category', match: { status: true }, select: 'name' });
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                msg: 'Producto no encontrado'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            product
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'Error al buscar el producto',
+            error: error.message
+        })
+    }
+}
+
+//Validaciones extras de productos
+
+export const getStockA = async (req, res) => {
+    try {
+        const products = await Product.find({ stock: 0 })
+            .populate({ path: 'category', match: { status: true }, select: 'name' });
+
+        res.status(200).json({
+            success: true,
+            total: products.length,
+            products
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'Error al obtener los productos sin stock',
+            error: error.message
+        })
+    }
+}
+
+export const buscarPorNombre = async (req, res) => {
+    try {
+        const { name, exact } = req.query;
+
+        if (!name) {
+            return res.status(400).json({
+                success: false,
+                msg: 'Debes proporcionar un nombre de producto'
+            });
+        }
+
+        const query = exact === 'true' 
+            ? { nameP: name, status: true }
+            : { nameP: { $regex: name, $options: 'i' }, status: true };
+
+        const products = await Product.find(query)
+            .populate({ path: 'category', match: { status: true }, select: 'name' });
+
+        if (products.length === 0) {
+            return res.status(404).json({
+                success: false,
+                msg: 'No se encontraron productos con ese nombre'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            total: products.length,
+            products
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'Error al buscar el producto',
+            error: error.message
+        });
+    }
+};

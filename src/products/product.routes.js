@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { saveProduct, getProduct, deleteProduct, updateProduct } from "./product.controller.js";
+import { saveProduct, getProduct, deleteProduct, updateProduct, getProductById } from "./product.controller.js";
+import { getStockA, buscarPorNombre } from "./product.controller.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { existeProduct } from "../helpers/db-validator.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -42,4 +43,25 @@ router.put(
     updateProduct
 )
 
+router.get(
+    "/findProduct/:id",
+    [
+        check("id").custom(existeProduct),
+        validarCampos
+    ],
+    getProductById
+)
+
+router.get(
+    "/stock",
+    [
+        check("id").custom(existeProduct),
+    ],
+    getStockA
+)
+
+router.get(
+    "/buscar",
+    buscarPorNombre
+)
 export default router;
