@@ -10,6 +10,7 @@ import limiter from '../src/middlewares/validar-cant-peticiones.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import userRoutes from '../src/users/user.routes.js';
 import categoryRoutes from '../src/categorys/category.routes.js';
+import productRoutes from '../src/products/product.routes.js';
 
 const middlewares = (app) => {
     app.use(express.urlencoded({ extended: false }));
@@ -24,6 +25,7 @@ const routes = (app) => {
     app.use("/gestorVentas/v1/auth", authRoutes);
     app.use("/gestorVentas/v1/users", userRoutes);
     app.use("/gestorVentas/v1/category", categoryRoutes);
+    app.use("/gestorVentas/v1/product", productRoutes);
 }
 
 const conectarDB = async () => {

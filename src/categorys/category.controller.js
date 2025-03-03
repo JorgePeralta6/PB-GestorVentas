@@ -1,4 +1,5 @@
 import Category from "./category.model.js";
+import Product from "../products/product.model.js"
 
 export const saveCategory = async(req, res) => {
     try{
@@ -63,9 +64,15 @@ export const deleteCategory = async (req, res) => {
             });
         }
 
+        const categoriaNew = await Category.findOne({name: "Condimentos"})
+
+        await Product.updateMany({ category: categoryToDelete._id }, { category: categoriaNew._id });
+
+        await Category.findByIdAndDelete(id);
+
         res.status(200).json({
             success: true,
-            msg: "Categoría eliminada correctamente y publicaciones actualizadas"
+            msg: "Categoría eliminada correctamente"
         });
 
     } catch (error) {

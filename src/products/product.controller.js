@@ -26,13 +26,13 @@ export const saveProduct = async (req, res) => {
 
         res.status(200).json({
             succes: true,
-            publication
+            product
         });
 
     } catch (error) {
         res.status(500).json({
             succes: false,
-            msg: 'Error al crear la publicacion',
+            msg: 'Error al crear el producto',
             error: error.message
         })
     }
@@ -60,7 +60,7 @@ export const getProduct = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             succes: false,
-            msg: 'Error al obtener la publicacion',
+            msg: 'Error al obtener el producto',
             error: error.message
         })
     }
