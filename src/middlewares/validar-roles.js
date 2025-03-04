@@ -40,3 +40,25 @@ export const soloAdmin = async (req, res, next) => {
         });
     }
 };
+
+export const soloCliente = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const authenticatedUserClient = req.user.role;
+        
+        if (authenticatedUserClient !== "CLIENT_ROLE") {
+            return res.status(403).json({
+                success: false,
+                msg: "Solo el cliente"
+            });
+        }
+
+        next();
+    } catch (error) {
+        return res.status(500).json({ 
+            success: false,
+            msg: "Error al modificar",
+            error: error.message || error
+        });
+    }
+};
