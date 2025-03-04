@@ -200,3 +200,32 @@ export const buscarPorNombre = async (req, res) => {
         });
     }
 };
+
+export const listSales = async (req, res) => {
+    try {
+        const { limite = 10, desde = 0 } = req.query;
+        const query = { status: true };
+
+        const [total, product] = await Promise.all([
+            Product.countDocuments(query),
+            Product.find(query)
+                .select('nameP sales')
+                .sort({ 'sales.ventas': -1 })
+                .skip(Number(desde))
+                .limit(Number(limite))
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            msg: "Productos ordenadas por mayores ventas",
+            total,
+            product
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            msg: "Error al obtener producto"
+        });
+    }
+};

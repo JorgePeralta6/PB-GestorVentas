@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { saveProduct, getProduct, deleteProduct, updateProduct, getProductById } from "./product.controller.js";
-import { getStockA, buscarPorNombre } from "./product.controller.js";
+import { getStockA, buscarPorNombre, listSales } from "./product.controller.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { existeProduct } from "../helpers/db-validator.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -63,5 +63,10 @@ router.get(
 router.get(
     "/buscar",
     buscarPorNombre
+)
+
+router.get(
+    "/ventas",
+    listSales
 )
 export default router;
