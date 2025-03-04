@@ -209,8 +209,8 @@ export const listSales = async (req, res) => {
         const [total, product] = await Promise.all([
             Product.countDocuments(query),
             Product.find(query)
-                .select('nameP sales')
-                .sort({ 'sales.ventas': -1 })
+                .select('nameP sold')
+                .sort({ sold: -1 })
                 .skip(Number(desde))
                 .limit(Number(limite))
         ]);

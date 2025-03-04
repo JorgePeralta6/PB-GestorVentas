@@ -19,16 +19,10 @@ const productSchema = Schema({
         required: true,
         min: [0, 'No puede haber menos que 0 stocks']
     },
-    sales: [{
-        ventas: {
-            type: Number,
-            required: true
-        },
-        comentario: {
-            type: String,
-            required: false
-        }
-    }],
+    sold: {
+        type: Number,
+        required: true
+    },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category',
