@@ -11,6 +11,8 @@ import authRoutes from '../src/auth/auth.routes.js';
 import userRoutes from '../src/users/user.routes.js';
 import categoryRoutes from '../src/categorys/category.routes.js';
 import productRoutes from '../src/products/product.routes.js';
+import cartRoutes from '../src/cart/cart.routes.js';
+import facturaRoutes from '../src/factura/factura.routes.js';
 
 const middlewares = (app) => {
     app.use(express.urlencoded({ extended: false }));
@@ -26,6 +28,8 @@ const routes = (app) => {
     app.use("/gestorVentas/v1/users", userRoutes);
     app.use("/gestorVentas/v1/category", categoryRoutes);
     app.use("/gestorVentas/v1/product", productRoutes);
+    app.use("/gestorVentas/v1/cart", cartRoutes);
+    app.use("/gestorVentas/v1/factura", facturaRoutes);
 }
 
 const conectarDB = async () => {

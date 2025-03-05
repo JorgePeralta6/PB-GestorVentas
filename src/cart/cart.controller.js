@@ -4,33 +4,39 @@ import User from '../users/user.model.js'
 
 export const saveCart = async (req, res) => {
     try {
-        const { userId, productId, quantity } = req.body;
+        const data = req.body;
 
-        const cliente = await User.findById(userId); 
-        if (!cliente) {
+        // Buscar usuario por nombre
+        const user = await User.findOne({ name: data.name });
+        if (!user) {
             return res.status(404).json({ success: false, msg: 'Usuario no encontrado' });
         }
 
-        const product = await Product.findById(productId);
+        // Buscar producto por nombre
+        const product = await Product.findOne({ nameP: data.nameP });
         if (!product) {
             return res.status(404).json({ success: false, msg: 'Producto no encontrado' });
         }
-        if (product.stock < quantity) {
-            return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
-        }
 
-        let cart = await Cart.findOne({ cliente: userId }); 
+        let cart = await Cart.findOne({ user: user._id });
 
         if (!cart) {
-            cart = new Cart({ cliente: userId, products: [] });
+            cart = new Cart({ user: user._id, products: [] });
         }
 
-        const productAdd = cart.products.findIndex(item => item.product.toString() === productId);
+        const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
 
-        if (productAdd !== -1) {
-            cart.products[productAdd].quantity += quantity;
+        if (productIndex !== -1) {
+            const newQuantity = cart.products[productIndex].quantity + data.quantity;
+            if (newQuantity > product.stock) {
+                return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
+            }
+            cart.products[productIndex].quantity = newQuantity;
         } else {
-            cart.products.push({ product: productId, quantity });
+            if (data.quantity > product.stock) {
+                return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
+            }
+            cart.products.push({ product: product._id, quantity: data.quantity });
         }
 
         await cart.save();
@@ -51,6 +57,8 @@ export const saveCart = async (req, res) => {
     }
 };
 
+
+
 export const getCart = async (req, res) => {
     try {
         const { limite = 10, desde = 0 } = req.query;
@@ -58,8 +66,8 @@ export const getCart = async (req, res) => {
         const [total, carts] = await Promise.all([
             Cart.countDocuments(),
             Cart.find()
-                .populate('cliente', 'name email') 
-                .populate('products.product', 'nameP price') 
+                .populate('user', 'name email')
+                .populate('products.product', 'nameP price')
                 .skip(Number(desde))
                 .limit(Number(limite))
         ]);

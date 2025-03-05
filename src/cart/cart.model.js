@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const cartSchema = Schema ({
-    cliente: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'user',  // Referencia al modelo de usuario
         required: true

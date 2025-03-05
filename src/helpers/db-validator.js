@@ -1,7 +1,9 @@
 import Role from '../role/role.model.js';
 import User from '../users/user.model.js';
 import Category from '../categorys/category.model.js';
-import Product from '../products/product.model.js'
+import Product from '../products/product.model.js';
+import Carrito from '../cart/cart.model.js';
+import Factura from '../factura/factura.model.js'
 
 export const esRoleValido = async (role = '') => {
 
@@ -42,5 +44,21 @@ export const existeProduct = async (id = '') => {
     
     if(!existeProduct){
         throw new Error(`El producto con el ID ${id} no existe`)
+    }
+}
+
+export const existeCarrito = async (id = '') => {
+    const existeCarrito = await Carrito.findById(id);
+    
+    if(existeCarrito){
+        throw new Error(`El carrito con el ID ${id} no existe`)
+    }
+}
+
+export const existeFactura = async (id = '') => {
+    const existeFactura = await Factura.findById(id);
+    
+    if(existeFactura){
+        throw new Error(`La factura con el ID ${id} no existe`)
     }
 }
