@@ -4,46 +4,61 @@ import User from '../users/user.model.js'
 
 export const saveCart = async (req, res) => {
     try {
-        const data = req.body;
+        const data = req.body; 
 
-        // Buscar usuario por nombre
+
         const user = await User.findOne({ name: data.name });
         if (!user) {
-            return res.status(404).json({ success: false, msg: 'Usuario no encontrado' });
-        }
-
-        // Buscar producto por nombre
-        const product = await Product.findOne({ nameP: data.nameP });
-        if (!product) {
-            return res.status(404).json({ success: false, msg: 'Producto no encontrado' });
+            return res.status(404).json({ 
+                success: false,
+                msg: 'Usuario no encontrado' 
+            });
         }
 
         let cart = await Cart.findOne({ user: user._id });
-
         if (!cart) {
             cart = new Cart({ user: user._id, products: [] });
         }
 
-        const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
+        for (let i = 0; i < data.products.length; i++) {
+            const productData = data.products[i];
 
-        if (productIndex !== -1) {
-            const newQuantity = cart.products[productIndex].quantity + data.quantity;
-            if (newQuantity > product.stock) {
-                return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
+            const product = await Product.findOne({ nameP: productData.nameP });
+            if (!product) {
+                return res.status(404).json({
+                    success: false,
+                    msg: 'Producto no encontrado'
+                });
             }
-            cart.products[productIndex].quantity = newQuantity;
-        } else {
-            if (data.quantity > product.stock) {
-                return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
+
+            if (productData.quantity > product.stock) {
+                return res.status(400).json({
+                    success: false,
+                    msg: 'No hay suficiente stock'
+                });
             }
-            cart.products.push({ product: product._id, quantity: data.quantity });
+
+            const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
+
+            if (productIndex !== -1) {
+                const newQuantity = cart.products[productIndex].quantity + productData.quantity;
+                if (newQuantity > product.stock) {
+                    return res.status(400).json({
+                        success: false,
+                        msg: 'No hay suficiente stock'
+                    });
+                }
+                cart.products[productIndex].quantity = newQuantity;
+            } else {
+                cart.products.push({ product: product._id, quantity: productData.quantity });
+            }
         }
 
         await cart.save();
 
         return res.status(200).json({
             success: true,
-            msg: 'Producto agregado al carrito con éxito',
+            msg: 'Productos agregados al carrito con éxito',
             cart
         });
 
@@ -51,7 +66,7 @@ export const saveCart = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             success: false,
-            msg: 'Error al agregar producto al carrito',
+            msg: 'Error al agregar productos al carrito',
             error: error.message
         });
     }
@@ -102,7 +117,9 @@ export const updateCart = async (req, res) => {
         const productAdd = cart.products.findIndex(item => item.product.toString() === productId);
 
         if (productAdd === -1) {
-            return res.status(404).json({ success: false, msg: 'Producto no encontrado en el carrito' });
+            return res.status(404).json({ 
+                success: false, 
+                msg: 'Producto no encontrado en el carrito' });
         }
 
         if (quantity <= 0) {
@@ -110,10 +127,14 @@ export const updateCart = async (req, res) => {
         } else {
             const product = await Product.findById(productId);
             if (!product) {
-                return res.status(404).json({ success: false, msg: 'Producto no encontrado' });
+                return res.status(404).json({ 
+                    success: false, 
+                    msg: 'Producto no encontrado' });
             }
             if (product.stock < quantity) {
-                return res.status(400).json({ success: false, msg: 'No hay suficiente stock' });
+                return res.status(400).json({ 
+                    success: false, 
+                    msg: 'No hay suficiente stock' });
             }
 
             cart.products[productAdd].quantity = quantity;
@@ -142,7 +163,9 @@ export const deleteCart = async (req, res) => {
 
         const cart = await Cart.findById(cartId);
         if (!cart) {
-            return res.status(404).json({ success: false, msg: 'Carrito no encontrado' });
+            return res.status(404).json({ 
+                success: false, 
+                msg: 'Carrito no encontrado' });
         }
 
         cart.status = false;
@@ -169,13 +192,17 @@ export const deletePinCart = async (req, res) => {
 
         let cart = await Cart.findById(cartId);
         if (!cart) {
-            return res.status(404).json({ success: false, msg: 'Carrito no encontrado' });
+            return res.status(404).json({ 
+                success: false, 
+                msg: 'Carrito no encontrado' });
         }
 
         const newProducts = cart.products.filter(item => item.product.toString() !== productId);
 
         if (newProducts.length === cart.products.length) {
-            return res.status(400).json({ success: false, msg: 'El producto no estaba en el carrito' });
+            return res.status(400).json({ 
+                success: false, 
+                msg: 'El producto no estaba en el carrito' });
         }
 
         cart.products = newProducts;

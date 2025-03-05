@@ -20,8 +20,7 @@ const productSchema = Schema({
         min: [0, 'No puede haber menos que 0 stocks']
     },
     sold: {
-        type: Number,
-        required: true
+        type: Number
     },
     category: {
         type: Schema.Types.ObjectId,
