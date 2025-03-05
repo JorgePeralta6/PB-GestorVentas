@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { saveCart, getCart, updateCart, deleteCart } from "./cart.controller.js";
+import { saveCart, getCart, updateCart } from "./cart.controller.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { existeCarrito } from "../helpers/db-validator.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -37,17 +37,6 @@ router.put(
     updateCart
 )
 
-
-router.delete(
-    "/:id",
-    [
-        validarJWT,
-        soloCliente,
-        check("id").custom(existeCarrito),
-        validarCampos
-    ],
-    deleteCart
-)
 
 
 

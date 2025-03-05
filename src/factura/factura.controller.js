@@ -28,14 +28,13 @@ export const saveFactura = async (req, res) => {
             if (item.product.stock < item.quantity) {
                 return res.status(400).json({ 
                     success: false, 
-                    msg: `Stock insuficiente para ${item.product.nameP}` });
+                    msg: 'No hay suficiente stock' });
             }
             total += item.product.price * item.quantity;
         }
 
-        // Crear factura
         const factura = new Factura({
-            user: user._id, // Se usa el ID del cliente
+            user: user._id,
             products: cart.products.map(item => ({
                 product: item.product._id,
                 quantity: item.quantity,
@@ -46,16 +45,15 @@ export const saveFactura = async (req, res) => {
 
         await factura.save();
 
-        // Restar el stock de los productos comprados
         for (let item of cart.products) {
             await Product.findByIdAndUpdate(item.product._id, { 
-                $inc: { stock: -item.quantity }  // Resta la cantidad comprada
+                $inc: { stock: -item.quantity }
             });
         }
 
         for (let item of cart.products) {
             await Product.findByIdAndUpdate(item.product._id, { 
-                $inc: { sold: +item.quantity }  // Resta la cantidad comprada
+                $inc: { sold: +item.quantity }
             });
         }
         
@@ -76,3 +74,38 @@ export const saveFactura = async (req, res) => {
         });
     }
 };
+
+export const getFactura = async(req, res) => {
+    try {
+        const { limite = 10, desde = 0 } = req.query;
+        const query = { status: true };
+        const userAutentico = req.user.id;
+
+        const factura = await Factura.find({ user: userAutentico })
+            .skip(Number(desde))  // Paginación
+            .limit(Number(limite)) 
+            .populate({
+                path: 'user',
+                select: 'name , lastname'
+            })
+            .populate({
+                path: 'products.product',
+                select: 'nameP'
+            });
+
+        console.log(userAutentico)
+        
+        return res.status(200).json({
+            success: true,
+            msg: "Factura encontradas",
+            factura
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            msg: "Error al obtener las factura",
+            error: error.message
+        })   
+    }
+}

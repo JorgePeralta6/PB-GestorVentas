@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { saveFactura } from "./factura.controller.js";
+import { saveFactura , getFactura } from "./factura.controller.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import { soloCliente } from "../middlewares/validar-roles.js";
@@ -16,6 +16,12 @@ router.post(
     saveFactura
 )
 
+router.get("/", 
+    [
+        validarJWT,
+        soloCliente
+    ],
+    getFactura)
 
 
 export default router;
