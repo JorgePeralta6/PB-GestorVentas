@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "67c68fc4004a7ab7fd678387"
+  },
+  "nameP": "Arroz",
+  "price": 6,
+  "description": "Arroz blanco",
+  "stock": 4,
+  "sold": 12,
+  "category": {
+    "$oid": "67c52ade8965218612e1cb14"
+  },
+  "status": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c68ff8004a7ab7fd67838d"
+  },
+  "nameP": "Powerade",
+  "price": 8,
+  "description": "Bebida energetica",
+  "stock": 1,
+  "sold": 19,
+  "category": {
+    "$oid": "67c67b08a91ae741cb3fdecd"
+  },
+  "status": true,
+  "__v": 0
+}]

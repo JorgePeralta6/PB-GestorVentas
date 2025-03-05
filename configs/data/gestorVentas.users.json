@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "67c3e944dc8ff925acbe273b"
+  },
+  "name": "Jorge",
+  "lastname": "Peralta",
+  "username": "jperalta",
+  "email": "jperalta-2023478@kinal.edu.gt",
+  "password": "$argon2id$v=19$m=65536,t=3,p=4$vd0V0UJl190zl+zKuE8Zqw$LSx5lKIJWPXq7eDWJOFU+/kFYRqvgTSQkkoBfY8gXrs",
+  "role": "ADMIN_ROLE",
+  "status": true,
+  "createdAt": {
+    "$date": "2025-03-02T05:14:44.344Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-02T05:14:44.344Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c3eb389277ef420803e4db"
+  },
+  "name": "Cristian",
+  "lastname": "Lima",
+  "username": "clima",
+  "email": "clima@kinal.edu.gt",
+  "password": "$argon2id$v=19$m=65536,t=3,p=4$g02j5Vr6wp85Wq3HnrAWaQ$XyB+KUM4gFSLq2M7V5lqg+I+7nZ9hSSTb1je58ZaQSw",
+  "role": "CLIENT_ROLE",
+  "status": true,
+  "createdAt": {
+    "$date": "2025-03-02T05:23:04.057Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-02T05:23:04.057Z"
+  }
+}]

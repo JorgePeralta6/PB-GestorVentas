@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "67c3e2c8bb6b377280a051a9"
+  },
+  "name": "Condimentos",
+  "status": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c52ade8965218612e1cb14"
+  },
+  "name": "Farinaceos",
+  "status": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c67b08a91ae741cb3fdecd"
+  },
+  "name": "Bebidas",
+  "status": true,
+  "__v": 0
+}]

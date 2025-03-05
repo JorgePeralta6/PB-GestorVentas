@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "b7360d23-f111-4fd5-8857-49335d044b67",
+		"name": "GestorVentas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37413959"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "PostUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cristian\",\r\n    \"lastname\": \"Lima\",\r\n    \"username\": \"clima\",\r\n    \"email\": \"clima@kinal.edu.gt\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clima\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "PostProducto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDEwNjYwNDAsImV4cCI6MTc0MTA2OTY0MH0.BKdUFH3clePU0rvDWCO6nLeGDATKKbK8tR_T42hZERU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameP\": \"Powerade\",\r\n    \"price\": 8,\r\n    \"description\": \"Bebida energetica\",\r\n    \"stock\": 10,\r\n    \"sold\": 10,\r\n    \"name\": \"Bebidas\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProduct",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDEwNjYwNDAsImV4cCI6MTc0MTA2OTY0MH0.BKdUFH3clePU0rvDWCO6nLeGDATKKbK8tR_T42hZERU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameP\": \"Arroz\",\r\n    \"price\": 6,\r\n    \"description\": \"Arroz blanco\",\r\n    \"stock\": 9,\r\n    \"sold\": 9,\r\n    \"name\": \"Farinaceos\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/67c68fc4004a7ab7fd678387",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"67c68fc4004a7ab7fd678387"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProduct",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDA5NzMxODAsImV4cCI6MTc0MDk3Njc4MH0.A0TNT2FzH1jiZUZW_w0Ler7KnFCNO4H7lDSmb7usJ10",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/67c524cc000d85679cb19477",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"67c524cc000d85679cb19477"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/findProduct/67c52afc8965218612e1cb1a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"findProduct",
+								"67c52afc8965218612e1cb1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StockAgotado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/stock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarPorNombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/buscar?name=Power",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Power"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ventas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/product/ventas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"product",
+								"ventas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "GetCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostCategoria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDEwNjA1MTAsImV4cCI6MTc0MTA2NDExMH0.DD-euq01i97QTcOh326_DIMvzsIzl6Q6JkO0flwzP2I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bebidas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategoria",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDA5NzMxODAsImV4cCI6MTc0MDk3Njc4MH0.A0TNT2FzH1jiZUZW_w0Ler7KnFCNO4H7lDSmb7usJ10",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bebida Fria\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/category/67c3f1b6b5e56c60ea8e2571",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"category",
+								"67c3f1b6b5e56c60ea8e2571"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCategoria",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZTk0NGRjOGZmOTI1YWNiZTI3M2IiLCJpYXQiOjE3NDA5NzMxODAsImV4cCI6MTc0MDk3Njc4MH0.A0TNT2FzH1jiZUZW_w0Ler7KnFCNO4H7lDSmb7usJ10",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/category/67c3f1b6b5e56c60ea8e2571",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"category",
+								"67c3f1b6b5e56c60ea8e2571"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carrito",
+			"item": [
+				{
+					"name": "PostCarrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZWIzODkyNzdlZjQyMDgwM2U0ZGIiLCJpYXQiOjE3NDExMzc2NDIsImV4cCI6MTc0MTE0MTI0Mn0.jqqhGDg1IoXc2huPwuni7PYyYaLQibgCUNqUQi7i5RE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cristian\",\r\n    \"products\": [\r\n        {\r\n            \"nameP\": \"Powerade\",   \r\n            \"quantity\": 9               \r\n        },\r\n        {\r\n            \"nameP\": \"Arroz\",  \r\n            \"quantity\": 3\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCarrito",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZWIzODkyNzdlZjQyMDgwM2U0ZGIiLCJpYXQiOjE3NDExMzc2NDIsImV4cCI6MTc0MTE0MTI0Mn0.jqqhGDg1IoXc2huPwuni7PYyYaLQibgCUNqUQi7i5RE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Facturas",
+			"item": [
+				{
+					"name": "PostFactura",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MzZWIzODkyNzdlZjQyMDgwM2U0ZGIiLCJpYXQiOjE3NDExMzc2NDIsImV4cCI6MTc0MTE0MTI0Mn0.jqqhGDg1IoXc2huPwuni7PYyYaLQibgCUNqUQi7i5RE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cristian\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gestorVentas/v1/factura",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gestorVentas",
+								"v1",
+								"factura"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
