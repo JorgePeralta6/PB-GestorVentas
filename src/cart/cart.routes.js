@@ -31,13 +31,9 @@ router.put(
     [
         validarJWT,
         soloCliente,
-        check("id").custom(existeCarrito),
         validarCampos
     ],
     updateCart
 )
-
-
-
 
 export default router;

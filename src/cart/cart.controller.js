@@ -4,14 +4,14 @@ import User from '../users/user.model.js'
 
 export const saveCart = async (req, res) => {
     try {
-        const data = req.body; 
+        const data = req.body;
 
 
         const user = await User.findOne({ name: data.name });
         if (!user) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                msg: 'Usuario no encontrado' 
+                msg: 'Usuario no encontrado'
             });
         }
 
@@ -41,14 +41,7 @@ export const saveCart = async (req, res) => {
             const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
 
             if (productIndex !== -1) {
-                const newQuantity = cart.products[productIndex].quantity + productData.quantity;
-                if (newQuantity > product.stock) {
-                    return res.status(400).json({
-                        success: false,
-                        msg: 'No hay suficiente stock'
-                    });
-                }
-                cart.products[productIndex].quantity = newQuantity;
+                cart.products[productIndex].quantity = productData.quantity;
             } else {
                 cart.products.push({ product: product._id, quantity: productData.quantity });
             }
@@ -103,43 +96,71 @@ export const getCart = async (req, res) => {
     }
 };
 
-
-
 export const updateCart = async (req, res) => {
     try {
-        const { cartId, productId, quantity } = req.body;
+        const { name, products } = req.body;
 
-        let cart = await Cart.findById(cartId);
+        console.log("Nombre del usuario:", name);  // Verifica el nombre que llega
+        // Buscar al usuario por nombre
+        const user = await User.findOne({ name });
+        if (!user) {
+            return res.status(404).json({ success: false, msg: 'Usuario no encontrado' });
+        }
+
+        console.log("Usuario encontrado:", user);
+
+        // Buscar el carrito del usuario
+        let cart = await Cart.findOne({ user: user._id });
         if (!cart) {
             return res.status(404).json({ success: false, msg: 'Carrito no encontrado' });
         }
 
-        const productAdd = cart.products.findIndex(item => item.product.toString() === productId);
+        console.log("Carrito encontrado:", cart);
 
-        if (productAdd === -1) {
-            return res.status(404).json({ 
-                success: false, 
-                msg: 'Producto no encontrado en el carrito' });
-        }
+        // Procesar cada producto recibido en el cuerpo de la solicitud
+        for (let i = 0; i < products.length; i++) {
+            const productData = products[i];
+            console.log("Procesando producto:", productData);
 
-        if (quantity <= 0) {
-            cart.products.splice(productAdd, 1);
-        } else {
-            const product = await Product.findById(productId);
+            // Buscar el producto por nombre
+            const product = await Product.findOne({ nameP: productData.nameP });
             if (!product) {
-                return res.status(404).json({ 
-                    success: false, 
-                    msg: 'Producto no encontrado' });
-            }
-            if (product.stock < quantity) {
-                return res.status(400).json({ 
-                    success: false, 
-                    msg: 'No hay suficiente stock' });
+                return res.status(404).json({
+                    success: false,
+                    msg: `Producto ${productData.nameP} no encontrado`
+                });
             }
 
-            cart.products[productAdd].quantity = quantity;
+            console.log("Producto encontrado:", product);
+
+            // Verificar si el producto ya está en el carrito
+            const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
+
+            if (productIndex === -1) {
+                return res.status(404).json({
+                    success: false,
+                    msg: `Producto ${productData.nameP} no encontrado en el carrito`
+                });
+            }
+
+            console.log("Producto encontrado en el carrito:", cart.products[productIndex]);
+
+            // Verificar si la cantidad solicitada es válida
+            if (productData.quantity <= 0) {
+                cart.products.splice(productIndex, 1);  // Eliminar el producto si la cantidad es cero o negativa
+            } else {
+                if (product.stock < productData.quantity) {
+                    return res.status(400).json({
+                        success: false,
+                        msg: `No hay suficiente stock para ${productData.nameP}`
+                    });
+                }
+                // Actualizar la cantidad del producto en el carrito
+                cart.products[productIndex].quantity = productData.quantity;
+            }
         }
 
+        // Guardar los cambios en el carrito
         await cart.save();
 
         return res.status(200).json({
@@ -152,7 +173,8 @@ export const updateCart = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             success: false,
-            msg: 'Error al actualizar el carrito'
+            msg: 'Error al actualizar el carrito',
+            error: error.message
         });
     }
 };

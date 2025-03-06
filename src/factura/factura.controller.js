@@ -78,11 +78,10 @@ export const saveFactura = async (req, res) => {
 export const getFactura = async(req, res) => {
     try {
         const { limite = 10, desde = 0 } = req.query;
-        const query = { status: true };
         const userAutentico = req.user.id;
 
         const factura = await Factura.find({ user: userAutentico })
-            .skip(Number(desde))  // Paginación
+            .skip(Number(desde))
             .limit(Number(limite)) 
             .populate({
                 path: 'user',
