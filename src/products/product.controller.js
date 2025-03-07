@@ -93,6 +93,19 @@ export const updateProduct = async (req, res = response) => {
     try {
         const { id } = req.params;
         const { _id, ...data } = req.body;
+        let { name } = req.body;
+ 
+        if(name) {
+            const categoria = await Category.findOne({ name });
+ 
+            if (!categoria) {
+                return res.status(400).json({
+                    success: false,
+                    msg: 'Usuario con ese correo electrónico no encontrado',
+                });
+            }
+            data.category = categoria._id;
+        }
 
         const product = await Product.findByIdAndUpdate(id, data, { new: true });
 
