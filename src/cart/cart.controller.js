@@ -100,24 +100,18 @@ export const updateCart = async (req, res) => {
     try {
         const { name, products } = req.body;
 
-        console.log("Nombre del usuario:", name);  // Verifica el nombre que llega
+        console.log("Nombre del usuario:", name); 
         // Buscar al usuario por nombre
         const user = await User.findOne({ name });
         if (!user) {
             return res.status(404).json({ success: false, msg: 'Usuario no encontrado' });
         }
 
-        console.log("Usuario encontrado:", user);
-
-        // Buscar el carrito del usuario
         let cart = await Cart.findOne({ user: user._id });
         if (!cart) {
             return res.status(404).json({ success: false, msg: 'Carrito no encontrado' });
         }
 
-        console.log("Carrito encontrado:", cart);
-
-        // Procesar cada producto recibido en el cuerpo de la solicitud
         for (let i = 0; i < products.length; i++) {
             const productData = products[i];
             console.log("Procesando producto:", productData);
@@ -131,9 +125,6 @@ export const updateCart = async (req, res) => {
                 });
             }
 
-            console.log("Producto encontrado:", product);
-
-            // Verificar si el producto ya está en el carrito
             const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
 
             if (productIndex === -1) {
@@ -143,11 +134,8 @@ export const updateCart = async (req, res) => {
                 });
             }
 
-            console.log("Producto encontrado en el carrito:", cart.products[productIndex]);
-
-            // Verificar si la cantidad solicitada es válida
             if (productData.quantity <= 0) {
-                cart.products.splice(productIndex, 1);  // Eliminar el producto si la cantidad es cero o negativa
+                cart.products.splice(productIndex, 1);
             } else {
                 if (product.stock < productData.quantity) {
                     return res.status(400).json({
@@ -155,12 +143,10 @@ export const updateCart = async (req, res) => {
                         msg: `No hay suficiente stock para ${productData.nameP}`
                     });
                 }
-                // Actualizar la cantidad del producto en el carrito
                 cart.products[productIndex].quantity = productData.quantity;
             }
         }
 
-        // Guardar los cambios en el carrito
         await cart.save();
 
         return res.status(200).json({
@@ -174,6 +160,67 @@ export const updateCart = async (req, res) => {
         return res.status(500).json({
             success: false,
             msg: 'Error al actualizar el carrito',
+            error: error.message
+        });
+    }
+};
+
+export const deleteProincart = async (req, res) => {
+    try {
+        const data = req.body;
+
+        const user = await User.findOne({ name: data.name });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                msg: 'Usuario no encontrado'
+            });
+        }
+
+        let cart = await Cart.findOne({ user: user._id });
+        if (!cart) {
+            return res.status(404).json({
+                success: false,
+                msg: 'Carrito no encontrado'
+            });
+        }
+
+        // Busca el producto por el nombre
+        const product = await Product.findOne({ nameP: data.nameP });
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                msg: 'Producto no encontrado'
+            });
+        }
+
+        // Busca el producto en el carrito
+        const productIndex = cart.products.findIndex(item => item.product.toString() === product._id.toString());
+
+        if (productIndex === -1) {
+            return res.status(404).json({
+                success: false,
+                msg: 'Producto no encontrado en el carrito'
+            });
+        }
+
+        // Elimina el producto del carrito
+        cart.products.splice(productIndex, 1);
+
+        // Guarda el carrito actualizado
+        await cart.save();
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Producto eliminado del carrito con éxito',
+            cart
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            msg: 'Error al eliminar producto del carrito',
             error: error.message
         });
     }
